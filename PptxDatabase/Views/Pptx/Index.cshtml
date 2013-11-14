@@ -1,0 +1,83 @@
+﻿@using System.Activities.Statements
+@model List<PptxDatabase.Models.Datafile>
+
+@{
+    Layout = null;
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table>
+    <tr><td>タイトル</td><td>更新</td></tr>
+    @foreach (var a in Model){
+        <tr>
+            <td><a href="/Files/@(a.Filename)">@a.Filename</a></td>
+            <td>@a.UpdatedAt</td>
+            <td><input type="button" value="Delete" onclick="JobDelete(@a.Id,'@a.Filename')"/></td>
+        </tr>
+    }
+</table>
+
+<script>
+    function JobDelete(id,filename) {
+        if (confirm(filename + "を削除して宜しいですか?")) {
+            location.href = "/Pptx/Delete?Id="+id;
+        }
+
+    }
+</script>
+
+
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            CreatedAt
+        </th>
+        <th>
+            UpdatedAt
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+            <td>
+                @item.Filename
+            </td>
+            <td>
+                @item.Filename
+            </td>
+            <td>
+                @String.Format("{0:g}", item.CreatedAt)
+            </td>
+            <td>
+                @String.Format("{0:g}", item.UpdatedAt)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*@if (Model.HasPreviousPage) {*@
+@*    @Html.ActionLink("<<<", null, new { page = (Model.PageIndex - 1) })*@
+@*}*@
+@**@
+@*@if (Model.HasNextPage) {*@
+@*    @Html.ActionLink(">>>", null, new { page = (Model.PageIndex + 1) })*@
+@*}*@
