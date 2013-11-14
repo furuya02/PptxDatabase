@@ -129,8 +129,14 @@ namespace PptxDatabase.Controllers
 
         public ActionResult Delete(int id)
         {
-            _pptxRepository.Del(id);
+            var datafile = _pptxRepository.Find(id);
+
+            _pptxRepository.Del(datafile.Id);
             _pptxRepository.Save();
+
+            var path = Server.MapPath(string.Format("~/Files/{0}", datafile.Filename));
+            System.IO.File.Delete(path);
+
             return RedirectToAction("Index",_pptxRepository.GetAll());
         }
 
